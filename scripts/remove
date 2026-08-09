@@ -1,0 +1,11 @@
+#!/bin/bash
+
+source _common.sh
+source /usr/share/yunohost/helpers
+
+ynh_script_progression --message="Stopping Ferdium Server..." --weight=1
+ynh_systemd_action --service_name="$app" --action=stop --line_match="" || true
+
+ynh_script_progression --message="Removing Ferdium Server configuration..." --weight=1
+ynh_config_remove_nginx
+ynh_config_remove_systemd
