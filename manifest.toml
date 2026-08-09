@@ -1,0 +1,71 @@
+packaging_format = 2
+
+id = "ferdium"
+name = "Ferdium Server"
+description.en = "Self-hosted synchronization server for Ferdium"
+description.fr = "Serveur de synchronisation auto-heberge pour Ferdium"
+
+version = "2.0.13~ynh1"
+
+maintainers = ["xdespujols"]
+
+[upstream]
+license = "MIT"
+code = "https://github.com/ferdium/ferdium-server"
+
+[integration]
+yunohost = ">= 12.1"
+architectures = "all"
+multi_instance = true
+ldap = false
+sso = false
+disk = "500M"
+ram.build = "1G"
+ram.runtime = "256M"
+
+[install]
+    [install.domain]
+    type = "domain"
+
+    [install.init_main_permission]
+    type = "group"
+    default = "visitors"
+
+    [install.registration_enabled]
+    ask.en = "Allow new user registrations?"
+    ask.fr = "Autoriser les nouvelles inscriptions ?"
+    type = "boolean"
+    default = true
+
+    [install.dashboard_enabled]
+    ask.en = "Enable the Ferdium Server dashboard?"
+    ask.fr = "Activer le tableau de bord Ferdium Server ?"
+    type = "boolean"
+    default = true
+
+    [install.creation_enabled]
+    ask.en = "Allow creation of custom recipes?"
+    ask.fr = "Autoriser la creation de recettes personnalisees ?"
+    type = "boolean"
+    default = true
+
+[resources]
+    [resources.system_user]
+    allow_email = true
+
+    [resources.install_dir]
+
+    [resources.data_dir]
+    subdirs = ["data"]
+
+    [resources.ports]
+    main.default = 3333
+
+    [resources.nodejs]
+    version = "22.18.0"
+
+    [resources.apt]
+    packages = ["git", "build-essential", "python3", "pkg-config", "libsqlite3-dev"]
+
+    [resources.permissions]
+    main.url = "/"
