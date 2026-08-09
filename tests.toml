@@ -1,0 +1,10 @@
+test_format = 1.0
+
+[default]
+
+    args.domain = "domain.tld"
+    args.registration_enabled = true
+    args.dashboard_enabled = true
+    args.creation_enabled = true
+
+    test_upgrade_from.2b1c0c7.name = "Initial package"
