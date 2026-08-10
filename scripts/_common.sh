@@ -10,19 +10,22 @@ recipes_repo="https://github.com/ferdium/ferdium-recipes.git"
 recipes_commit="a0ea0575850c851fb3f6cb620102850bda999bee"
 
 install_ferdium_sources() {
-    ynh_safe_rm -rf "$install_dir"/*
+    # install_dir is provisioned empty by YunoHost during install. On upgrades,
+    # clear it before cloning the pinned upstream source again.
+    find "$install_dir" -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +
     git clone --branch "v${upstream_version}" --depth 1 "$upstream_repo" "$install_dir"
-    ynh_safe_rm -rf "$install_dir/recipes"
+    ynh_safe_rm "$install_dir/recipes"
     git clone "$recipes_repo" "$install_dir/recipes"
     pushd "$install_dir/recipes"
         git checkout "$recipes_commit"
-        ynh_safe_rm -rf .git
+        ynh_safe_rm "$install_dir/recipes/.git"
     popd
-    ynh_safe_rm -rf "$install_dir/.git"
+    ynh_safe_rm "$install_dir/.git"
 }
 
 install_ferdium_dependencies() {
-    ynh_nodejs_load_PATH
+    # The nodejs resource from helpers 2.1 already exposes the provisioned
+    # Node.js runtime in PATH for package scripts.
     corepack enable
     corepack prepare "pnpm@${pnpm_version}" --activate
     pushd "$install_dir"
@@ -33,7 +36,6 @@ install_ferdium_dependencies() {
 }
 
 run_ferdium_migrations() {
-    ynh_nodejs_load_PATH
     pushd "$install_dir"
         ENV_PATH="$install_dir/.env" node ace migration:run --force
     popd
