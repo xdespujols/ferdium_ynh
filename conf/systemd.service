@@ -9,7 +9,8 @@ Group=__APP__
 WorkingDirectory=__INSTALL_DIR__
 Environment=NODE_ENV=production
 Environment=ENV_PATH=__INSTALL_DIR__/.env
-ExecStart=__NODE__ __INSTALL_DIR__/build/server.js
+Environment="PATH=__PATH_WITH_NODEJS__"
+ExecStart=__NODEJS_DIR__/node __INSTALL_DIR__/build/server.js
 Restart=on-failure
 RestartSec=5
 PrivateTmp=true
