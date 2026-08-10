@@ -5,7 +5,7 @@ name = "Ferdium Server"
 description.en = "Self-hosted synchronization server for Ferdium"
 description.fr = "Serveur de synchronisation auto-heberge pour Ferdium"
 
-version = "2.0.13~ynh2"
+version = "2.0.13~ynh3"
 
 maintainers = ["xdespujols"]
 
