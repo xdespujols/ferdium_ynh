@@ -31,7 +31,11 @@ install_ferdium_dependencies() {
     pushd "$install_dir"
         CI=1 pnpm install --frozen-lockfile
         pnpm build
-        pnpm prune --prod
+        # Do not run `pnpm prune --prod` here. Ferdium's `prepare` lifecycle
+        # depends on dev-only commands (`is-ci` / `husky`) and pnpm reruns that
+        # lifecycle after pruning, which makes the package installation fail.
+        # Keeping the already-installed node_modules also works with
+        # build/server.js because Node resolves modules from the parent tree.
     popd
 }
 
